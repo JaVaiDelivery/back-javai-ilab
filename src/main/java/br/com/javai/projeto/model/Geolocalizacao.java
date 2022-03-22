@@ -27,6 +27,19 @@ public class Geolocalizacao {
 	@Column(name = "id_pedido", nullable = false)
 	private Integer idPedido;
 	
+	
+	public Geolocalizacao() {
+		
+	}
+
+	public Geolocalizacao(Integer id, Timestamp momento, String coordenadas, Integer idPedido) {
+		super();
+		this.id = id;
+		this.momento = momento;
+		this.coordenadas = coordenadas;
+		this.idPedido = idPedido;
+	}
+	
 
 	public Integer getId() {
 		return id;

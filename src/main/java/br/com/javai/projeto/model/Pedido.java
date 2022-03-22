@@ -34,6 +34,21 @@ public class Pedido {
 	private Integer idEntregador;
 	
 
+	public Pedido() {
+		
+	}
+		
+	public Pedido(Integer id, LocalDate data, Double valor, String status, Integer idCliente, Integer idEntregador) {
+		super();
+		this.id = id;
+		this.data = data;
+		this.valor = valor;
+		this.status = status;
+		this.idCliente = idCliente;
+		this.idEntregador = idEntregador;
+	}
+
+	
 	public Integer getId() {
 		return id;
 	}

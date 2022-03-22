@@ -28,6 +28,20 @@ public class Entregador {
 	@Column(name = "senha", columnDefinition = "text", nullable = false)
 	private String senha;
 	
+	
+	public Entregador() {
+		
+	}	
+
+	public Entregador(Integer id, String nome, String email, String telefone, String senha) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.telefone = telefone;
+		this.senha = senha;
+	}
+	
 
 	public Integer getId() {
 		return id;

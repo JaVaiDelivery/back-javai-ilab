@@ -22,10 +22,22 @@ public class Cliente {
 	@Column(name = "endereco", length = 150, nullable = false)
 	private String endereco;
 	
+
+	public Cliente() {
+		
+	}	
+
+	public Cliente(Integer id, String nome, String endereco) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.endereco = endereco;
+	}
+	
+	
 	public Integer getId() {
 		return id;
 	}
-	
 
 	public void setId(Integer id) {
 		this.id = id;
