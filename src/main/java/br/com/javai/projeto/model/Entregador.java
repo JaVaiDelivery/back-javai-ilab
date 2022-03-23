@@ -1,11 +1,16 @@
 package br.com.javai.projeto.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "entregador")
@@ -28,6 +33,9 @@ public class Entregador {
 	@Column(name = "senha", columnDefinition = "text", nullable = false)
 	private String senha;
 	
+	@OneToMany(mappedBy = "entregador")
+	@JsonIgnoreProperties("entregador")
+	private List<Pedido> listaDePedidos;
 	
 	public Entregador() {
 		
