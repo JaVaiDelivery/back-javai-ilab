@@ -1,13 +1,19 @@
 package br.com.javai.projeto.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "pedido")
@@ -27,28 +33,57 @@ public class Pedido {
 	@Column(name = "status", length = 15, nullable = false)
 	private String status;
 	
-	@Column(name = "id_cliente", nullable = false)
-	private Integer idCliente;
+	@ManyToOne
+	@JoinColumn(name = "id_cliente")
+	@JsonIgnoreProperties("listaDePedidos")
+	private Cliente cliente;
 	
-	@Column(name = "id_entregador")
-	private Integer idEntregador;
+	@ManyToOne
+	@JoinColumn(name = "id_entregador")
+	@JsonIgnoreProperties("listaDePedidos")
+	private Entregador entregador;
 	
-
+	@OneToMany(mappedBy = "pedido")
+	@JsonIgnoreProperties("pedido")
+	private List<Geolocalizacao> trekking;
+	
+	
 	public Pedido() {
 		
 	}
 		
-	public Pedido(Integer id, LocalDate data, Double valor, String status, Integer idCliente, Integer idEntregador) {
+	public Pedido(Integer id, LocalDate data, Double valor, String status, String nomeCliente, String endereco,
+					Integer idCliente, String nomeEntregador, String email,	String telefone, String senha, Integer idEntregador) {
 		super();
 		this.id = id;
 		this.data = data;
 		this.valor = valor;
 		this.status = status;
-		this.idCliente = idCliente;
-		this.idEntregador = idEntregador;
+		this.cliente.setNome(nomeCliente);
+		this.cliente.setEndereco(endereco);
+		this.entregador.setNome(nomeEntregador);
+		this.entregador.setEmail(email);
+		this.entregador.setTelefone(telefone);
+		this.entregador.setSenha(senha);
+	}	
+	  
+	
+	public Cliente getCliente() {
+		return cliente;   
 	}
 
-	
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Entregador getEntregador() {
+		return entregador;
+	}
+
+	public void setEntregador(Entregador entregador) {
+		this.entregador = entregador;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -80,20 +115,12 @@ public class Pedido {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public Integer getIdCliente() {
-		return idCliente;
+	
+	public List<Geolocalizacao> getTrekking() {
+		return trekking;
 	}
 
-	public void setIdCliente(Integer idCliente) {
-		this.idCliente = idCliente;
-	}
-
-	public Integer getIdEntregador() {
-		return idEntregador;
-	}
-
-	public void setIdEntregador(Integer idEntregador) {
-		this.idEntregador = idEntregador;
+	public void setTrekking(List<Geolocalizacao> trekking) {
+		this.trekking = trekking;
 	}
 }

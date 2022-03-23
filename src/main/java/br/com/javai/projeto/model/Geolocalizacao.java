@@ -1,12 +1,15 @@
 package br.com.javai.projeto.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,20 +27,23 @@ public class Geolocalizacao {
 	@Column(name = "coordenadas", columnDefinition = "text")
 	private String coordenadas;
 	
-	@Column(name = "id_pedido", nullable = false)
-	private Integer idPedido;
-	
+	@ManyToOne
+	@JoinColumn(name = "id_pedido" )
+	private Pedido pedido;
 	
 	public Geolocalizacao() {
 		
 	}
 
-	public Geolocalizacao(Integer id, Timestamp momento, String coordenadas, Integer idPedido) {
+	public Geolocalizacao(Integer id, Timestamp momento, String coordenadas, LocalDate data, Double valor, String status) {
 		super();
 		this.id = id;
 		this.momento = momento;
 		this.coordenadas = coordenadas;
-		this.idPedido = idPedido;
+		this.pedido = new Pedido();
+		this.pedido.setData(data);
+		this.pedido.setValor(valor);
+		this.pedido.setStatus(status);
 	}
 	
 
@@ -65,11 +71,11 @@ public class Geolocalizacao {
 		this.coordenadas = coordenadas;
 	}
 
-	public Integer getIdPedido() {
-		return idPedido;
+	public Pedido getPedido() {
+		return pedido;
 	}
 
-	public void setIdPedido(Integer idPedido) {
-		this.idPedido = idPedido;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 }
