@@ -2,17 +2,10 @@ package br.com.javai.projeto.dto;
 
 public class EntregadorLoginDTO {
 	
-	private String nome;
 	private String email;
 	private String telefone;
 	private String senha;
 	
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
 	public String getEmail() {
 		return email;
 	}
