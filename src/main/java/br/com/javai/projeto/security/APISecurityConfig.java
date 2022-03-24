@@ -19,6 +19,7 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
 		.exceptionHandling().authenticationEntryPoint(entryPoint)
 		.and()
 		.authorizeRequests()
+		.antMatchers(HttpMethod.POST, "/login").permitAll()
 		.antMatchers(HttpMethod.GET, "/pedidos*").permitAll()
 		.anyRequest().authenticated().and().cors();
 		
