@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -37,17 +39,41 @@ public class Entregador {
 	@JsonIgnoreProperties("entregador")
 	private List<Pedido> listaDePedidos;
 	
+	
+	@OneToOne
+	@JoinColumn(name = "id_geolocalizacao")
+	private Geolocalizacao geolocalizacao;
+	
+	
+	
+	public List<Pedido> getListaDePedidos() {
+		return listaDePedidos;
+	}
+
+	public void setListaDePedidos(List<Pedido> listaDePedidos) {
+		this.listaDePedidos = listaDePedidos;
+	}
+
+	public Geolocalizacao getGeolocalizacao() {
+		return geolocalizacao;
+	}
+
+	public void setGeolocalizacao(Geolocalizacao geolocalizacao) {
+		this.geolocalizacao = geolocalizacao;
+	}
+
 	public Entregador() {
 		
 	}	
 
-	public Entregador(Integer id, String nome, String email, String telefone, String senha) {
+	public Entregador(Integer id, String nome, String email, String telefone, String senha, Geolocalizacao geolocalizacao) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
 		this.senha = senha;
+		this.geolocalizacao = geolocalizacao;
 	}
 	
 
