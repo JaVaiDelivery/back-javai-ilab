@@ -16,7 +16,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-public class TokenUtil {
+public class GeradorDeToken {
 	private static final int SEGUNDOS = 1000;
 	private static final int MINUTOS = 60 * SEGUNDOS;
 	private static final int HORAS = 60 * MINUTOS;
@@ -54,7 +54,7 @@ public class TokenUtil {
 		return email != null && email.length() > 0;
 	}
 	
-	public static Authentication validar(HttpServletRequest req) {
+	public static Authentication validarRequest(HttpServletRequest req) {
 		String token = req.getHeader(HEADER);
 		token = token.replace(PREFIX, "");
 		
@@ -63,12 +63,12 @@ public class TokenUtil {
 				.build()
 				.parseClaimsJws(token);
 		
-		String usuario = jwsClaims.getBody().getSubject();
+		String email = jwsClaims.getBody().getSubject();
 		String emissor = jwsClaims.getBody().getIssuer();
 		Date exp = jwsClaims.getBody().getExpiration();
 		
-		if (validarSubject(usuario) && validarEmissor(emissor) && validarExpiracao(exp)) {
-			return new UsernamePasswordAuthenticationToken(usuario, null, Collections.emptyList());
+		if (validarSubject(email) && validarEmissor(emissor) && validarExpiracao(exp)) {
+			return new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
 		}
 		
 		return null;
