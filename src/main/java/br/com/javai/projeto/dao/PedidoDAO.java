@@ -4,9 +4,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.javai.projeto.model.Entregador;
 import br.com.javai.projeto.model.Pedido;
 public interface PedidoDAO extends CrudRepository<Pedido, Integer>{
 	

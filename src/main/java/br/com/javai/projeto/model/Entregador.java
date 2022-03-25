@@ -8,9 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -37,11 +35,12 @@ public class Entregador {
 	private String senha;
 	
 	@OneToMany(mappedBy = "id")
-	@JsonIgnoreProperties("entregador")
+	@JsonIgnoreProperties({"entregador", "cliente"})
 	private List<Pedido> listaDePedidos;
 
 	
 	@OneToMany(mappedBy = "entregador", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties({"entregador", "pedido"})
 	private List<Geolocalizacao> listaDeGeolocalizacao;
 
 	
@@ -49,8 +48,6 @@ public class Entregador {
 	public Entregador() {
 		
 	}
-	
-	
 	
 
 	public Entregador(Integer id, String nome, String email, String telefone, String senha, List<Pedido> listaDePedidos,
