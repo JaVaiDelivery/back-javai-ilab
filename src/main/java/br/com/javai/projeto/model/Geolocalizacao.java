@@ -34,35 +34,20 @@ public class Geolocalizacao {
 	@ManyToOne
 	@JoinColumn(name = "num_entregador")
 	private Entregador entregador;
-	
-	
-	
-	
-	
-	public Entregador getEntregador() {
-		return entregador;
-	}
-
-	public void setEntregador(Entregador entregador) {
-		this.entregador = entregador;
-	}
 
 	public Geolocalizacao() {
 		
 	}
-
-	public Geolocalizacao(Integer id, Timestamp momento, String coordenadas, LocalDate data, Double valor, String status, Entregador entregador) {
+	
+	
+	public Geolocalizacao(Integer id, Timestamp momento, String coordenadas, Pedido pedido, Entregador entregador) {
 		super();
 		this.id = id;
 		this.momento = momento;
 		this.coordenadas = coordenadas;
-		this.pedido = new Pedido();
-		this.pedido.setData(data);
-		this.pedido.setValor(valor);
-		this.pedido.setStatus(status);
+		this.pedido = pedido;
 		this.entregador = entregador;
 	}
-	
 
 	public Integer getId() {
 		return id;
@@ -95,4 +80,16 @@ public class Geolocalizacao {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
+
+	public Entregador getEntregador() {
+		return entregador;
+	}
+
+	public void setEntregador(Entregador entregador) {
+		this.entregador = entregador;
+	}
+	
+	
+	
+	
 }

@@ -2,6 +2,7 @@ package br.com.javai.projeto.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,33 +36,89 @@ public class Entregador {
 	@Column(name = "senha", columnDefinition = "text", nullable = false)
 	private String senha;
 	
-	@OneToMany(mappedBy = "id_pedido")
+	@OneToMany(mappedBy = "id")
 	@JsonIgnoreProperties("entregador")
 	private List<Pedido> listaDePedidos;
 
 	
-	@OneToMany(mappedBy = "num_entregador")
+	@OneToMany(mappedBy = "entregador", cascade = CascadeType.ALL)
 	private List<Geolocalizacao> listaDeGeolocalizacao;
+
 	
-	public List<Pedido> getListaDePedidos() {
-		return listaDePedidos;
+	
+	public Entregador() {
+		
 	}
 	
 	
 	
 
-	public List<Geolocalizacao> getListaDeGeolocalizacao() {
-		return listaDeGeolocalizacao;
-	}
-
-
-
-
-	public void setListaDeGeolocalizacao(List<Geolocalizacao> listaDeGeolocalizacao) {
+	public Entregador(Integer id, String nome, String email, String telefone, String senha, List<Pedido> listaDePedidos,
+			List<Geolocalizacao> listaDeGeolocalizacao) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.telefone = telefone;
+		this.senha = senha;
+		this.listaDePedidos = listaDePedidos;
 		this.listaDeGeolocalizacao = listaDeGeolocalizacao;
 	}
 
 
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public String getNome() {
+		return nome;
+	}
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+
+	public String getSenha() {
+		return senha;
+	}
+
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+
+	public List<Pedido> getListaDePedidos() {
+		return listaDePedidos;
+	}
 
 
 	public void setListaDePedidos(List<Pedido> listaDePedidos) {
@@ -69,57 +126,14 @@ public class Entregador {
 	}
 
 
-	public Entregador() {
-		
-	}	
+	public List<Geolocalizacao> getListaDeGeolocalizacao() {
+		return listaDeGeolocalizacao;
+	}
 
-	public Entregador(Integer id, String nome, String email, String telefone, String senha) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.email = email;
-		this.telefone = telefone;
-		this.senha = senha;
+
+	public void setListaDeGeolocalizacao(List<Geolocalizacao> listaDeGeolocalizacao) {
+		this.listaDeGeolocalizacao = listaDeGeolocalizacao;
 	}
 	
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+	
 }
