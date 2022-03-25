@@ -10,7 +10,8 @@ create table entregador(
     nome varchar(120) not null,
     email varchar(100) not null unique,
     telefone varchar(15),
-    senha text not null
+    senha text not null,
+ 
 );
 
 create table pedido(
@@ -30,6 +31,8 @@ create table geolocalizacao(
     momento timestamp,
     coordenadas text,
     id_pedido integer not null,
+    num_entregador integer not null,
 
-    constraint fk_pedido foreign key(id_pedido) references pedido(id)
+    constraint fk_pedido foreign key(id_pedido) references pedido(id),
+    constraint fk_entregador foreign key(num_entregador) references entregador(id)
 );
