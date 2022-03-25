@@ -31,11 +31,27 @@ public class Geolocalizacao {
 	@JoinColumn(name = "id_pedido" )
 	private Pedido pedido;
 	
+	@ManyToOne
+	@JoinColumn(name = "num_entregador")
+	private Entregador entregador;
+	
+	
+	
+	
+	
+	public Entregador getEntregador() {
+		return entregador;
+	}
+
+	public void setEntregador(Entregador entregador) {
+		this.entregador = entregador;
+	}
+
 	public Geolocalizacao() {
 		
 	}
 
-	public Geolocalizacao(Integer id, Timestamp momento, String coordenadas, LocalDate data, Double valor, String status) {
+	public Geolocalizacao(Integer id, Timestamp momento, String coordenadas, LocalDate data, Double valor, String status, Entregador entregador) {
 		super();
 		this.id = id;
 		this.momento = momento;
@@ -44,6 +60,7 @@ public class Geolocalizacao {
 		this.pedido.setData(data);
 		this.pedido.setValor(valor);
 		this.pedido.setStatus(status);
+		this.entregador = entregador;
 	}
 	
 

@@ -35,16 +35,34 @@ public class Entregador {
 	@Column(name = "senha", columnDefinition = "text", nullable = false)
 	private String senha;
 	
-	@OneToMany(mappedBy = "entregador")
+	@OneToMany(mappedBy = "id_pedido")
 	@JsonIgnoreProperties("entregador")
 	private List<Pedido> listaDePedidos;
 
 	
-	
+	@OneToMany(mappedBy = "num_entregador")
+	private List<Geolocalizacao> listaDeGeolocalizacao;
 	
 	public List<Pedido> getListaDePedidos() {
 		return listaDePedidos;
 	}
+	
+	
+	
+
+	public List<Geolocalizacao> getListaDeGeolocalizacao() {
+		return listaDeGeolocalizacao;
+	}
+
+
+
+
+	public void setListaDeGeolocalizacao(List<Geolocalizacao> listaDeGeolocalizacao) {
+		this.listaDeGeolocalizacao = listaDeGeolocalizacao;
+	}
+
+
+
 
 	public void setListaDePedidos(List<Pedido> listaDePedidos) {
 		this.listaDePedidos = listaDePedidos;
