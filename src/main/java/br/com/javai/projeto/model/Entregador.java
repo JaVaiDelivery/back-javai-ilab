@@ -38,11 +38,7 @@ public class Entregador {
 	@OneToMany(mappedBy = "entregador")
 	@JsonIgnoreProperties("entregador")
 	private List<Pedido> listaDePedidos;
-	
-	
-	@OneToOne
-	@JoinColumn(name = "id_geolocalizacao")
-	private Geolocalizacao geolocalizacao;
+
 	
 	
 	
@@ -54,26 +50,18 @@ public class Entregador {
 		this.listaDePedidos = listaDePedidos;
 	}
 
-	public Geolocalizacao getGeolocalizacao() {
-		return geolocalizacao;
-	}
-
-	public void setGeolocalizacao(Geolocalizacao geolocalizacao) {
-		this.geolocalizacao = geolocalizacao;
-	}
 
 	public Entregador() {
 		
 	}	
 
-	public Entregador(Integer id, String nome, String email, String telefone, String senha, Geolocalizacao geolocalizacao) {
+	public Entregador(Integer id, String nome, String email, String telefone, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
 		this.senha = senha;
-		this.geolocalizacao = geolocalizacao;
 	}
 	
 
