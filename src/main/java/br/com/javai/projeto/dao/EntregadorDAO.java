@@ -11,7 +11,5 @@ public interface EntregadorDAO extends CrudRepository<Entregador, Integer>{
 	public Entregador findByEmail(String email);
 
 	public List<Geolocalizacao> findAllById(Integer idEntregador);
-	
-	
-//	public List<Geolocalizacao> receberGeolocalizacaoDoEntregador(Integer idEntregador);
+
 }
