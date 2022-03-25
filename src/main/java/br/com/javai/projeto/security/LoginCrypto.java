@@ -19,6 +19,11 @@ public class LoginCrypto {
 		String senhaCripto = new String(cipher.doFinal(), "UTF-8");
 		
 		StringBuilder cryptoHex = new StringBuilder();
+		byte[] conversaoHex = senhaCripto.getBytes();
+		
+		for (byte b: conversaoHex) {
+			cryptoHex.append(Integer.toHexString(b));
+		}
 		
 		return cryptoHex.toString();
 	}
