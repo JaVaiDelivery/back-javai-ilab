@@ -34,7 +34,7 @@ public class Entregador {
 	@Column(name = "senha", columnDefinition = "text", nullable = false)
 	private String senha;
 	
-	@OneToMany(mappedBy = "id")
+	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties({"entregador", "cliente"})
 	private List<Pedido> listaDePedidos;
 
