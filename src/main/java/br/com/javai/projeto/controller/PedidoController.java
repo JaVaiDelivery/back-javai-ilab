@@ -1,6 +1,7 @@
 package br.com.javai.projeto.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +23,8 @@ public class PedidoController {
 	}
 	
 	@GetMapping("/pedidos/{id}")
-	public List<Pedido> recuperarPedidoEspecifico(@PathVariable int id) {
-		return dao.recuperarPedidoEspecifico(id);
+	public Optional<Pedido> recuperarPedidoEspecifico(@PathVariable int id) {
+		return dao.findById(id);
 	}
 	
 }
