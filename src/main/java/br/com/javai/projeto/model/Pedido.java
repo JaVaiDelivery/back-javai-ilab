@@ -3,6 +3,7 @@ package br.com.javai.projeto.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,45 +44,23 @@ public class Pedido {
 	@JsonIgnoreProperties("listaDePedidos")
 	private Entregador entregador;
 	
-	@OneToMany(mappedBy = "pedido")
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("pedido")
-	private List<Geolocalizacao> trekking;
-	
+	private List<Geolocalizacao> tracking;
 	
 	public Pedido() {
 		
 	}
-		
-	public Pedido(Integer id, LocalDate data, Double valor, String status, String nomeCliente, String endereco,
-					Integer idCliente, String nomeEntregador, String email,	String telefone, String senha, Integer idEntregador) {
+
+	public Pedido(Integer id, LocalDate data, Double valor, String status, Cliente cliente, Entregador entregador,
+			List<Geolocalizacao> tracking) {
 		super();
 		this.id = id;
 		this.data = data;
-		this.valor = valor;
 		this.status = status;
-		this.cliente.setNome(nomeCliente);
-		this.cliente.setEndereco(endereco);
-		this.entregador.setNome(nomeEntregador);
-		this.entregador.setEmail(email);
-		this.entregador.setTelefone(telefone);
-		this.entregador.setSenha(senha);
-	}	
-	  
-	
-	public Cliente getCliente() {
-		return cliente;   
-	}
-
-	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
-
-	public Entregador getEntregador() {
-		return entregador;
-	}
-
-	public void setEntregador(Entregador entregador) {
 		this.entregador = entregador;
+		this.tracking = tracking;
 	}
 
 	public Integer getId() {
@@ -115,12 +94,31 @@ public class Pedido {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	public List<Geolocalizacao> getTrekking() {
-		return trekking;
+
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setTrekking(List<Geolocalizacao> trekking) {
-		this.trekking = trekking;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
+
+	public Entregador getEntregador() {
+		return entregador;
+	}
+
+	public void setEntregador(Entregador entregador) {
+		this.entregador = entregador;
+	}
+
+	public List<Geolocalizacao> getTracking() {
+		return tracking;
+	}
+
+	public void setTracking(List<Geolocalizacao> tracking) {
+		this.tracking = tracking;
+	}
+	
+	
+	
 }
