@@ -10,21 +10,16 @@ public interface PedidoDAO extends CrudRepository<Pedido, Integer>{
 	
 	@Query(value = "SELECT * FROM pedido WHERE pedido.status = 'Em aberto'", nativeQuery = true)
 	public List<Pedido> recuperarPedidosEmAberto();
-
-
-	
 	
 	@Query("UPDATE Pedido as pedido"
-			+ " SET pedido.entregador = '%idEntregador',"
+			+ " SET pedido.entregador = :idEntregador,"
 			+ " pedido.status = 'Em progresso'"
-			+ " WHERE pedido.id = '%id'")
-	public boolean atribuirEntregadorEMudarStatus(@Param("IdEntregador") Integer idEntregador, @Param("id") Integer id);
+			+ " WHERE pedido.id = :id")
+	public boolean atribuirEntregadorEMudarStatus(@Param("idEntregador") Integer idEntregador, @Param("id") Integer id);
 	
 	@Query("UPDATE Pedido as pedido"
 			+ " SET pedido.entregador = null,"
 			+ "pedido.status = 'Em aberto'"
 			+ "WHERE pedido.id = :id")
 	public boolean removerEntregadorEMudarStatus(@Param("id") Integer id);
-
-	
 }
