@@ -20,12 +20,12 @@ public class GeolocalizacaoController {
 	
 	@PostMapping("/geolocalizacao")
 	public Geolocalizacao receberGeolocalizacaoEntregador(@RequestBody Geolocalizacao geo){
-		System.out.println(geo.getEntregador().getId() + ", " + geo.getPedido().getId());
 		try {
-////			if (geo.getEntregador() != null && geo.getPedido() != null) {		
-//		pedidoDao.atribuirEntregadorEMudarStatus(geo.getEntregador(), geo.getPedido());
-//		
-			return dao.save(geo);
+			if (geo.getEntregador() != null && geo.getPedido() != null) {	
+				pedidoDao.atribuirEntregadorEMudarStatus(geo.getEntregador().getId(), geo.getPedido().getId());
+				
+				return dao.save(geo);
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
