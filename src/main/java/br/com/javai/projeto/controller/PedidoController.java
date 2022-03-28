@@ -6,10 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.javai.projeto.dao.EntregadorDAO;
 import br.com.javai.projeto.dao.PedidoDAO;
+import br.com.javai.projeto.model.Entregador;
 import br.com.javai.projeto.model.Pedido;
 
 @RestController
@@ -17,6 +21,9 @@ public class PedidoController {
 
 	@Autowired
 	private PedidoDAO dao;
+	
+	@Autowired
+	private EntregadorDAO daoEntregador;
 	
 	@GetMapping("/pedidos")
 	public ResponseEntity<List<Pedido>> recuperarPedidosEmAberto() {
@@ -38,6 +45,28 @@ public class PedidoController {
 				// TODO - Criar Util de respostas
 			}
 			return ResponseEntity.ok(pedido);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	@PatchMapping("/pedidos/{id}")
+	public ResponseEntity<?> atribuirEntregadorEAlterarStatus(@RequestBody Entregador idEntregador, @PathVariable int id) {
+		
+		Optional<Entregador> encontrado = daoEntregador.findById(idEntregador.getId());
+		
+		try {
+			
+			if (encontrado.isEmpty()) {
+				return ResponseEntity.status(404).body("Entregador não encontrado!");
+			}
+			
+			dao.atribuirEntregadorEMudarStatus(idEntregador.getId(), id);
+			
+			return ResponseEntity.ok("Atribuição concluida");
+			
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
