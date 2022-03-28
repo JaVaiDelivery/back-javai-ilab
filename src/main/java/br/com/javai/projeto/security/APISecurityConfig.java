@@ -24,6 +24,7 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.GET, "/pedidos/*").permitAll()
 		.antMatchers(HttpMethod.POST, "/geolocalizacao").permitAll()
 		.antMatchers(HttpMethod.GET, "/geolocalizacao/*").permitAll()
+		.antMatchers(HttpMethod.POST, "/entregador").permitAll()
 		.anyRequest().authenticated().and().cors();
 		
 		httpSec.addFilterBefore(new APIFilter(), UsernamePasswordAuthenticationFilter.class);
