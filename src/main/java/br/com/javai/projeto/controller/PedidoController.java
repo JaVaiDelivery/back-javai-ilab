@@ -16,6 +16,7 @@ import br.com.javai.projeto.dao.EntregadorDAO;
 import br.com.javai.projeto.dao.PedidoDAO;
 import br.com.javai.projeto.model.Entregador;
 import br.com.javai.projeto.model.Pedido;
+import br.com.javai.projeto.util.Message;
 
 @RestController
 @CrossOrigin("*")
@@ -28,29 +29,30 @@ public class PedidoController {
 	private EntregadorDAO daoEntregador;
 	
 	@GetMapping("/pedidos")
-	public ResponseEntity<List<Pedido>> recuperarPedidosEmAberto() {
+	public ResponseEntity<?> recuperarPedidosEmAberto() {
+		
 		try {
 			List<Pedido> pedidos = dao.recuperarPedidosEmAberto();
-		return ResponseEntity.ok(pedidos);
+			return ResponseEntity.ok(pedidos);
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			return ResponseEntity.status(500).body(new Message(ex.getMessage()));
 		}
-		return null;
 	}
 	
 	@GetMapping("/pedidos/{id}")
 	public ResponseEntity<?> recuperarPedidoEspecifico(@PathVariable int id) {
+		
 		try {
 			Optional<Pedido> pedido = dao.findById(id);
-			if (pedido == null) {
-				return ResponseEntity.status(404).body("Pedido não encontrado!");
-				// TODO - Criar Util de respostas
-			}
+			
+			if (pedido.isEmpty()) {				
+				return ResponseEntity.status(404).body(new Message("Pedido não encontrado!"));
+			}			
+			
 			return ResponseEntity.ok(pedido);
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			return ResponseEntity.status(500).body(new Message(ex.getMessage()));
 		}
-		return null;
 	}
 	
 	
@@ -62,7 +64,7 @@ public class PedidoController {
 		try {
 			
 			if (encontrado.isEmpty()) {
-				return ResponseEntity.status(404).body("Entregador não encontrado!");
+				return ResponseEntity.status(404).body(new Message("Entregador não encontrado!"));
 			}
 			
 			dao.atribuirEntregadorEMudarStatus(idEntregador.getId(), id);
@@ -70,9 +72,7 @@ public class PedidoController {
 			return ResponseEntity.ok("Atribuição concluida");
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			return ResponseEntity.status(500).body(new Message(ex.getMessage()));
 		}
-		return null;
-	}
-	
+	}	
 }

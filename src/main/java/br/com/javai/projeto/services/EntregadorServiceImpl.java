@@ -28,10 +28,12 @@ public class EntregadorServiceImpl implements IEntregadorService {
 					return new Token(GeradorDeToken.criarToken(entregador));
 				}
 			}
+			
+			throw new RuntimeException("Email e/ou senha inválidos");
+			
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			
+			throw new RuntimeException(ex.getMessage());
 		}
-		
-		return null;
 	}
 }
