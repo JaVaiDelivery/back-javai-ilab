@@ -21,8 +21,6 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> realizarLogin(@RequestBody EntregadorLoginDTO dadosLogin) {
-		System.out.println(dadosLogin.getEmail());
-		System.out.println(dadosLogin.getSenha());
 		
 		try {
 			
@@ -46,7 +44,5 @@ public class LoginController {
 			
 			return ResponseEntity.status(400).body(new Message(ex.getMessage()));
 		}
-		
-
 	}
 }
