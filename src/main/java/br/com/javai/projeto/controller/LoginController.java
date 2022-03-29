@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.javai.projeto.dto.EntregadorLoginDTO;
 import br.com.javai.projeto.security.Token;
 import br.com.javai.projeto.services.IEntregadorService;
+import br.com.javai.projeto.util.Message;
 
 @RestController
 @CrossOrigin("*")
@@ -19,12 +20,33 @@ public class LoginController {
 	private IEntregadorService service;
 	
 	@PostMapping("/login")
-	public ResponseEntity<Token> realizarLogin(@RequestBody EntregadorLoginDTO dadosLogin) {
+	public ResponseEntity<?> realizarLogin(@RequestBody EntregadorLoginDTO dadosLogin) {
+		System.out.println(dadosLogin.getEmail());
+		System.out.println(dadosLogin.getSenha());
 		
-		Token token = service.gerarTokenDeLogin(dadosLogin);
-		if (token != null) {
-			return ResponseEntity.ok(token);
+		try {
+			
+			if(dadosLogin.getEmail() == null) {
+				return ResponseEntity.badRequest().body(new Message("O campo email é obrigatório"));
+			}
+			
+			if(dadosLogin.getSenha() == null) {
+				return ResponseEntity.badRequest().body(new Message("O campo senha é obrigatório"));
+			}
+			
+			Token token = service.gerarTokenDeLogin(dadosLogin);
+			
+			if (token != null) {
+				return ResponseEntity.ok(token);
+			}
+			
+			return ResponseEntity.status(403).body(new Message("Acesso negado"));
+			
+		} catch (Exception ex) {
+			
+			return ResponseEntity.status(400).body(new Message(ex.getMessage()));
 		}
-		return ResponseEntity.status(401).build();
+		
+
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.javai.projeto.dao.GeolocalizacaoDAO;
 import br.com.javai.projeto.model.Geolocalizacao;
+import br.com.javai.projeto.util.Message;
 
 @RestController
 @CrossOrigin("*")
@@ -18,7 +19,8 @@ public class GeolocalizacaoController {
 	private GeolocalizacaoDAO dao;
 	
 	@PostMapping("/geolocalizacao")
-	public ResponseEntity<Geolocalizacao> receberGeolocalizacaoEntregador(@RequestBody Geolocalizacao geo){
+	public ResponseEntity<?> receberGeolocalizacaoEntregador(@RequestBody Geolocalizacao geo){
+		
 		try {			
 			if (geo.getPedido() == null || geo.getPedido().getId() == null || geo.getEntregador() == null || geo.getEntregador().getId() == null) {
 				return ResponseEntity.status(400).build();
@@ -27,10 +29,10 @@ public class GeolocalizacaoController {
 			Geolocalizacao nova = dao.save(geo);
 			
 			return ResponseEntity.ok(nova);
+			
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			
+			return ResponseEntity.status(400).body(new Message(ex.getMessage()));
 		}
-		
-		return null;
 	}
 }
