@@ -33,6 +33,8 @@ public class GeradorDeToken {
 		
 		String token = Jwts.builder()
 				.setSubject(entregador.getEmail())
+				.claim("id_entregador", entregador.getId())
+				.claim("nome_entregador", entregador.getNome())
 				.setIssuer(EMISSOR)
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
 				.signWith(chaveSecreta, SignatureAlgorithm.HS256)
