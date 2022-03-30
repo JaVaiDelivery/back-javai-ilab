@@ -27,7 +27,7 @@ public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name  ="id")
-	private Integer id;
+	private int id;
 	
 	@Column(name = "data")
 	private LocalDate data;

@@ -1,13 +1,11 @@
 package br.com.javai.projeto.util;
 
-import java.util.Optional;
-
 public enum StatusDoPedido {
 	
-	EM_ABERTO(1),
-	EM_ROTA(2),
-	CONCLUIDO(3),
-	CANCELADO(4);
+	EM_ABERTO(0),
+	EM_ROTA(1),
+	CONCLUIDO(2),
+	CANCELADO(3);
 	
 	
 	private int numeroStatus;
