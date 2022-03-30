@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.javai.projeto.model.Pedido;
+import br.com.javai.projeto.util.StatusDoPedido;
 
 public interface PedidoDAO extends CrudRepository<Pedido, Integer>{
 	
@@ -17,14 +18,21 @@ public interface PedidoDAO extends CrudRepository<Pedido, Integer>{
 	@Transactional
 	@Modifying
 	@Query("UPDATE Pedido as pedido"
-			+ " SET pedido.entregador.id = :idEntregador,"
-			+ " pedido.status = 'Em progresso'"
+			+ " SET pedido.entregador.id = :idEntregador"
 			+ " WHERE pedido.id = :id")
-	public void atribuirEntregadorEMudarStatus(@Param("idEntregador") Integer idEntregador, @Param("id") Integer id);
+	public void atribuirEntregador(@Param("idEntregador") Integer idEntregador, @Param("id") Integer id);
 	
+	@Transactional
+	@Modifying
 	@Query("UPDATE Pedido as pedido"
-			+ " SET pedido.entregador = null,"
-			+ "pedido.status = 'Em aberto'"
-			+ "WHERE pedido.id = :id")
-	public boolean removerEntregadorEMudarStatus(@Param("id") Integer id);
+			+ " SET pedido.status = :status"
+			+ " WHERE pedido.id = :id")
+	public void mudarStatus(@Param("status") StatusDoPedido status, @Param("id") Integer id);
+	
+	@Transactional
+	@Modifying	
+	@Query("UPDATE Pedido as pedido"
+			+ " SET pedido.entregador = null"
+			+ " WHERE pedido.id = :id")
+	public boolean removerEntregador(@Param("id") Integer id);
 }

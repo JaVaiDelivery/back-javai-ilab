@@ -17,6 +17,7 @@ import br.com.javai.projeto.dao.PedidoDAO;
 import br.com.javai.projeto.model.Entregador;
 import br.com.javai.projeto.model.Pedido;
 import br.com.javai.projeto.util.Message;
+import br.com.javai.projeto.util.StatusDoPedido;
 
 @RestController
 @CrossOrigin("*")
@@ -27,6 +28,8 @@ public class PedidoController {
 	
 	@Autowired
 	private EntregadorDAO daoEntregador;
+	
+//	private StatusDoPedido status;
 	
 	@GetMapping("/pedidos")
 	public ResponseEntity<?> recuperarPedidosEmAberto() {
@@ -56,10 +59,12 @@ public class PedidoController {
 	}
 	
 	
+	
+	
 	@PatchMapping("/pedidos/{id}")
-	public ResponseEntity<?> atribuirEntregadorEAlterarStatus(@RequestBody Entregador idEntregador, @PathVariable int id) {
+	public ResponseEntity<?> atribuirEntregadorEAlterarStatus(@RequestBody Pedido pedido, @PathVariable int id) {
 		
-		Optional<Entregador> encontrado = daoEntregador.findById(idEntregador.getId());
+		Optional<Entregador> encontrado = daoEntregador.findById(pedido.getEntregador().getId());
 		
 		try {
 			
@@ -67,7 +72,8 @@ public class PedidoController {
 				return ResponseEntity.status(404).body(new Message("Entregador não encontrado!"));
 			}
 			
-			dao.atribuirEntregadorEMudarStatus(idEntregador.getId(), id);
+			dao.atribuirEntregador(pedido.getEntregador().getId(), id);
+			dao.mudarStatus(StatusDoPedido.getStatusDoPedidoValueFromInt(pedido.getStatus().getNumeroStatus()), id);
 			
 			return ResponseEntity.ok("Atribuição concluida");
 			

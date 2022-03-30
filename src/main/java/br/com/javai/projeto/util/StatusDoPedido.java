@@ -1,5 +1,7 @@
 package br.com.javai.projeto.util;
 
+import java.util.Optional;
+
 public enum StatusDoPedido {
 	
 	EM_ABERTO(1),
@@ -10,6 +12,9 @@ public enum StatusDoPedido {
 	
 	private int numeroStatus;
 	
+	StatusDoPedido(){
+		
+	}
 	
 	StatusDoPedido(int numero) {
 		this.numeroStatus = numero;
@@ -23,4 +28,14 @@ public enum StatusDoPedido {
 	public void setNumeroStatus(int numeroStatus) {
 		this.numeroStatus = numeroStatus;
 	}
+	
+	public static StatusDoPedido getStatusDoPedidoValueFromInt(int i) {
+	     for (StatusDoPedido status : StatusDoPedido.values()) {
+	         if (status.getNumeroStatus() == i) {
+	             return status;
+	         }
+	     }
+	     // throw an IllegalArgumentException or return null
+	     throw new IllegalArgumentException("the given number doesn't match any Status.");
+	 }
 }

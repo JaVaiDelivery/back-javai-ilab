@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import br.com.javai.projeto.util.StatusDoPedido;
 
 @Entity
 @Table(name = "pedido")
@@ -32,7 +36,8 @@ public class Pedido {
 	private Double valor;
 	
 	@Column(name = "status", length = 15, nullable = false)
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private StatusDoPedido status;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
@@ -52,7 +57,7 @@ public class Pedido {
 		
 	}
 
-	public Pedido(Integer id, LocalDate data, Double valor, String status, Cliente cliente, Entregador entregador,
+	public Pedido(Integer id, LocalDate data, Double valor, StatusDoPedido status, Cliente cliente, Entregador entregador,
 			List<Geolocalizacao> tracking) {
 		super();
 		this.id = id;
@@ -87,11 +92,11 @@ public class Pedido {
 		this.valor = valor;
 	}
 
-	public String getStatus() {
+	public StatusDoPedido getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(StatusDoPedido status) {
 		this.status = status;
 	}
 
