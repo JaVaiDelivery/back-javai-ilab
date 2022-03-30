@@ -1,13 +1,24 @@
 package br.com.javai.projeto.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import br.com.javai.projeto.util.StatusDoPedido;
 
 @Entity
 @Table(name = "pedido")
@@ -16,7 +27,7 @@ public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name  ="id")
-	private Integer id;
+	private int id;
 	
 	@Column(name = "data")
 	private LocalDate data;
@@ -25,14 +36,37 @@ public class Pedido {
 	private Double valor;
 	
 	@Column(name = "status", length = 15, nullable = false)
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private StatusDoPedido status;
 	
-	@Column(name = "id_cliente", nullable = false)
-	private Integer idCliente;
+	@ManyToOne
+	@JoinColumn(name = "id_cliente")
+	@JsonIgnoreProperties("listaDePedidos")
+	private Cliente cliente;
 	
-	@Column(name = "id_entregador")
-	private Integer idEntregador;
+	@ManyToOne
+	@JoinColumn(name = "id_entregador")
+	@JsonIgnoreProperties("listaDePedidos")
+	private Entregador entregador;
 	
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties({"pedido", "entregador"})
+	private List<Geolocalizacao> tracking;
+	
+	public Pedido() {
+		
+	}
+
+	public Pedido(Integer id, LocalDate data, Double valor, StatusDoPedido status, Cliente cliente, Entregador entregador,
+			List<Geolocalizacao> tracking) {
+		super();
+		this.id = id;
+		this.data = data;
+		this.status = status;
+		this.cliente = cliente;
+		this.entregador = entregador;
+		this.tracking = tracking;
+	}
 
 	public Integer getId() {
 		return id;
@@ -58,27 +92,38 @@ public class Pedido {
 		this.valor = valor;
 	}
 
-	public String getStatus() {
+	public StatusDoPedido getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(StatusDoPedido status) {
 		this.status = status;
 	}
 
-	public Integer getIdCliente() {
-		return idCliente;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setIdCliente(Integer idCliente) {
-		this.idCliente = idCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public Integer getIdEntregador() {
-		return idEntregador;
+	public Entregador getEntregador() {
+		return entregador;
 	}
 
-	public void setIdEntregador(Integer idEntregador) {
-		this.idEntregador = idEntregador;
+	public void setEntregador(Entregador entregador) {
+		this.entregador = entregador;
 	}
+
+	public List<Geolocalizacao> getTracking() {
+		return tracking;
+	}
+
+	public void setTracking(List<Geolocalizacao> tracking) {
+		this.tracking = tracking;
+	}
+	
+	
+	
 }

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,9 +26,27 @@ public class Geolocalizacao {
 	@Column(name = "coordenadas", columnDefinition = "text")
 	private String coordenadas;
 	
-	@Column(name = "id_pedido", nullable = false)
-	private Integer idPedido;
+	@ManyToOne
+	@JoinColumn(name = "id_pedido" )
+	private Pedido pedido;
 	
+	@ManyToOne
+	@JoinColumn(name = "num_entregador")
+	private Entregador entregador;
+
+	public Geolocalizacao() {
+		
+	}
+	
+	
+	public Geolocalizacao(Integer id, Timestamp momento, String coordenadas, Pedido pedido, Entregador entregador) {
+		super();
+		this.id = id;
+		this.momento = momento;
+		this.coordenadas = coordenadas;
+		this.pedido = pedido;
+		this.entregador = entregador;
+	}
 
 	public Integer getId() {
 		return id;
@@ -52,11 +72,23 @@ public class Geolocalizacao {
 		this.coordenadas = coordenadas;
 	}
 
-	public Integer getIdPedido() {
-		return idPedido;
+	public Pedido getPedido() {
+		return pedido;
 	}
 
-	public void setIdPedido(Integer idPedido) {
-		this.idPedido = idPedido;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
+
+	public Entregador getEntregador() {
+		return entregador;
+	}
+
+	public void setEntregador(Entregador entregador) {
+		this.entregador = entregador;
+	}
+	
+	
+	
+	
 }
