@@ -12,7 +12,7 @@ import br.com.javai.projeto.util.StatusDoPedido;
 
 public interface PedidoDAO extends CrudRepository<Pedido, Integer>{
 	
-	@Query(value = "SELECT * FROM pedido WHERE pedido.status = 'Em aberto'", nativeQuery = true)
+	@Query(value = "SELECT * FROM pedido WHERE pedido.status = 'EM_ABERTO'", nativeQuery = true)
 	public List<Pedido> recuperarPedidosEmAberto();
 	
 	@Transactional
@@ -31,8 +31,8 @@ public interface PedidoDAO extends CrudRepository<Pedido, Integer>{
 	
 	@Transactional
 	@Modifying	
-	@Query("UPDATE Pedido as pedido"
-			+ " SET pedido.entregador = null"
-			+ " WHERE pedido.id = :id")
-	public boolean removerEntregador(@Param("id") Integer id);
+	@Query(value = "UPDATE pedido"
+			+ " SET id_entregador = NULL"
+			+ " WHERE pedido.id = :id", nativeQuery = true)
+	public void removerEntregador(@Param("id") int id);
 }

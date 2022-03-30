@@ -64,15 +64,25 @@ public class PedidoController {
 	@PatchMapping("/pedidos/{id}")
 	public ResponseEntity<?> atribuirEntregadorEAlterarStatus(@RequestBody Pedido pedido, @PathVariable int id) {
 		
-		Optional<Entregador> encontrado = daoEntregador.findById(pedido.getEntregador().getId());
+	
 		
 		try {
 			
-			if (encontrado.isEmpty()) {
-				return ResponseEntity.status(404).body(new Message("Entregador não encontrado!"));
+			if(pedido.getEntregador() != null) {
+				Optional<Entregador> encontrado = daoEntregador.findById(pedido.getEntregador().getId());
+				
+				if (encontrado == null) {
+					return ResponseEntity.status(404).body(new Message("Entregador não encontrado!"));
+				}
+				dao.atribuirEntregador(pedido.getEntregador().getId(), id);
+				
+			} else {
+			
+				dao.removerEntregador(id);
 			}
 			
-			dao.atribuirEntregador(pedido.getEntregador().getId(), id);
+			
+			
 			dao.mudarStatus(StatusDoPedido.getStatusDoPedidoValueFromInt(pedido.getStatus().getNumeroStatus()), id);
 			
 			return ResponseEntity.ok("Atribuição concluida");
@@ -80,5 +90,7 @@ public class PedidoController {
 		} catch(Exception ex) {
 			return ResponseEntity.status(500).body(new Message(ex.getMessage()));
 		}
-	}	
+	}
+	
+	
 }
