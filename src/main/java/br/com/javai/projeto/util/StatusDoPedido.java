@@ -33,8 +33,6 @@ public enum StatusDoPedido {
 	     for (StatusDoPedido status : StatusDoPedido.values()) {
 	         if (status.getNumeroStatus() == i) {
 	             return status;
-	         }else {
-	        	 return null;
 	         }
 	     }
 	     // throw an IllegalArgumentException or return null
