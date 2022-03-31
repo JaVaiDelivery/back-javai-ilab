@@ -35,6 +35,7 @@ public class Geolocalizacao {
 	
 	@ManyToOne
 	@JoinColumn(name = "num_entregador")
+	@JsonIgnoreProperties("email, telefone, senha, listaDeGeolocalizacao")
 	private Entregador entregador;
 
 	public Geolocalizacao() {

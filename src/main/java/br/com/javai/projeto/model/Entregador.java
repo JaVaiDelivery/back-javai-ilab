@@ -42,8 +42,6 @@ public class Entregador {
 	@OneToMany(mappedBy = "entregador", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties({"entregador", "pedido"})
 	private List<Geolocalizacao> listaDeGeolocalizacao;
-
-	
 	
 	public Entregador() {
 		

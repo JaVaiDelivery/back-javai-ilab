@@ -12,30 +12,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.javai.projeto.dao.EntregadorDAO;
-import br.com.javai.projeto.dao.PedidoDAO;
-import br.com.javai.projeto.model.Entregador;
 import br.com.javai.projeto.model.Pedido;
+import br.com.javai.projeto.services.IPedidoService;
 import br.com.javai.projeto.util.Message;
-import br.com.javai.projeto.util.StatusDoPedido;
 
 @RestController
 @CrossOrigin("*")
 public class PedidoController {
-
 	@Autowired
-	private PedidoDAO dao;
-	
-	@Autowired
-	private EntregadorDAO daoEntregador;
-	
-//	private StatusDoPedido status;
+	private IPedidoService service;
 	
 	@GetMapping("/pedidos")
 	public ResponseEntity<?> recuperarPedidosEmAberto() {
 		
 		try {
-			List<Pedido> pedidos = dao.recuperarPedidosEmAberto();
+			List<Pedido> pedidos = service.buscarPedidosEmAberto();
+			
 			return ResponseEntity.ok(pedidos);
 		} catch(Exception ex) {
 			return ResponseEntity.status(500).body(new Message(ex.getMessage()));
@@ -46,11 +38,11 @@ public class PedidoController {
 	public ResponseEntity<?> recuperarPedidoEspecifico(@PathVariable int id) {
 		
 		try {
-			Optional<Pedido> pedido = dao.findById(id);
+			Optional<Pedido> pedido = service.buscarPedidoPorId(id);
 			
-			if (pedido.isEmpty()) {				
-				return ResponseEntity.status(404).body(new Message("Pedido não encontrado!"));
-			}			
+			if (pedido == null) {
+				return ResponseEntity.status(404).body(new Message("Pedido não encontrado"));
+			}
 			
 			return ResponseEntity.ok(pedido);
 		} catch(Exception ex) {
@@ -58,33 +50,16 @@ public class PedidoController {
 		}
 	}
 	
-	
-	
-	
 	@PatchMapping("/pedidos/{id}")
 	public ResponseEntity<?> atribuirEntregadorEAlterarStatus(@RequestBody Pedido pedido, @PathVariable int id) {
 		
 		try {
 			
-			if(pedido.getEntregador() != null) {
-				Optional<Entregador> entregadorEncontrado = daoEntregador.findById(pedido.getEntregador().getId());
-				Optional<Pedido> pedidoEncontrado = dao.findById(id);
-				
-				if (entregadorEncontrado.isEmpty()) {
-					return ResponseEntity.status(404).body(new Message("Entregador não encontrado!"));
-				}
-				if(pedidoEncontrado.isEmpty()) {
-					return ResponseEntity.status(404).body(new Message("Pedido não encontrado!"));
-				}
-				
-				dao.atribuirEntregador(pedido.getEntregador().getId(), id);
-				
-			} else {
-		
-				dao.removerEntregador(id);
-			}
+			boolean res = service.alterarPedido(pedido, id);
 			
-			dao.mudarStatus(StatusDoPedido.getStatusDoPedidoValueFromInt(pedido.getStatus().getNumeroStatus()), id);
+			if (!res) {
+				return ResponseEntity.status(404).body(new Message("Pedido e/ou entregador não encontrado(s)"));
+			}
 			
 			return ResponseEntity.ok("Atribuição concluida");
 			
