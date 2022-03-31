@@ -36,6 +36,9 @@ public class PedidoController {
 	
 	@GetMapping("/pedidos/{id}")
 	public ResponseEntity<?> recuperarPedidoEspecifico(@PathVariable int id) {
+		if (id <= 0) {
+			return ResponseEntity.badRequest().body(new Message("ID de pedido inválido"));
+		}
 		
 		try {
 			Optional<Pedido> pedido = service.buscarPedidoPorId(id);
@@ -52,6 +55,9 @@ public class PedidoController {
 	
 	@PatchMapping("/pedidos/{id}")
 	public ResponseEntity<?> atribuirEntregadorEAlterarStatus(@RequestBody Pedido pedido, @PathVariable int id) {
+		if (id <= 0) {
+			return ResponseEntity.badRequest().body(new Message("ID de pedido inválido"));
+		}
 		
 		try {
 			

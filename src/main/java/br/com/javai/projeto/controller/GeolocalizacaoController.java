@@ -25,6 +25,10 @@ public class GeolocalizacaoController {
 	
 	@GetMapping("/geolocalizacao/{idPedido}")
 	public ResponseEntity<?> consultarGeolocalizacaoPorIdPedido(@PathVariable Integer idPedido) {
+		if (idPedido <= 0) {
+			return ResponseEntity.badRequest().body(new Message("ID de pedido inválido"));
+		}
+		
 		try {
 			List<GeolocalizacaoDTO> res = service.buscarGeolocalizacao(idPedido);
 			
