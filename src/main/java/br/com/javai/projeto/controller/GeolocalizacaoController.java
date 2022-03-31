@@ -15,6 +15,9 @@ import br.com.javai.projeto.dto.GeolocalizacaoDTO;
 import br.com.javai.projeto.model.Geolocalizacao;
 import br.com.javai.projeto.services.IGeolocalizacaoService;
 import br.com.javai.projeto.util.Message;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @CrossOrigin("*")
@@ -23,6 +26,12 @@ public class GeolocalizacaoController {
 	@Autowired
 	private IGeolocalizacaoService service;
 	
+	@ApiOperation(value = "Consulta geolocalização pelo id do pedido", notes = "Consulta geolocalização pelo id do pedido")
+	@ApiResponses( value = {
+			@ApiResponse(code = 200, message = "Lista de geolocalização do pedido recupera com sucess0"),
+			@ApiResponse(code = 400, message = "ID do pedido inválido"),
+			@ApiResponse(code = 400, message = "Pedido não encontrado")
+	})
 	@GetMapping("/geolocalizacao/{idPedido}")
 	public ResponseEntity<?> consultarGeolocalizacaoPorIdPedido(@PathVariable Integer idPedido) {
 		if (idPedido <= 0) {
@@ -42,6 +51,13 @@ public class GeolocalizacaoController {
 		}
 	}
 	
+	@ApiOperation(value = "Cadastra uma nova geolocalização", notes = "Cadastra uma nova geolocalização")
+	@ApiResponses( value = {
+			@ApiResponse(code = 201, message = "Geolocalização cadastrada com sucesso"),
+			@ApiResponse(code = 400, message = "Todos os campos são obrigatórios"),
+			@ApiResponse(code = 400, message = "Pedido não encontrado"),
+			@ApiResponse(code = 400, message = "Entregador não encontrado"),
+	})
 	@PostMapping("/geolocalizacao")
 	public ResponseEntity<?> receberGeolocalizacaoEntregador(@RequestBody Geolocalizacao geo){
 		try {		

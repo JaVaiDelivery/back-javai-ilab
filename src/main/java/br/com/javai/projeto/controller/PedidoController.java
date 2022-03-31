@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.javai.projeto.model.Pedido;
 import br.com.javai.projeto.services.IPedidoService;
 import br.com.javai.projeto.util.Message;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @CrossOrigin("*")
@@ -22,6 +25,11 @@ public class PedidoController {
 	@Autowired
 	private IPedidoService service;
 	
+	@ApiOperation(value = "Lista todos os pedidos com status em 'EM ABERTO'", notes = "Lista todos os pedidos com status em 'EM ABERTO'")
+	@ApiResponses( value = {
+			@ApiResponse(code = 200, message = "Lista de pedidos obtida com sucesso"),
+			@ApiResponse(code = 404, message = "O campo nome é obrigatório")
+	})
 	@GetMapping("/pedidos")
 	public ResponseEntity<?> recuperarPedidosEmAberto() {
 		
@@ -34,6 +42,12 @@ public class PedidoController {
 		}
 	}
 	
+	@ApiOperation(value = "Recupera detalhes do peiddo relacionado ao id informado", notes = "Recupera detalhes do peiddo relacionado ao id informado")
+	@ApiResponses( value = {
+			@ApiResponse(code = 200, message = "Dtealhes do pedido recuperados com sucesso"),
+			@ApiResponse(code = 400, message = "ID de pedido inválido"),
+			@ApiResponse(code = 400, message = "Pedidido não encontrado"),
+	})
 	@GetMapping("/pedidos/{id}")
 	public ResponseEntity<?> recuperarPedidoEspecifico(@PathVariable int id) {
 		if (id <= 0) {
@@ -53,6 +67,12 @@ public class PedidoController {
 		}
 	}
 	
+	@ApiOperation(value = "Altera informações pedido relacionado ao id informado", notes = "Altera informações do pedido relacionado ao id informado")
+	@ApiResponses( value = {
+			@ApiResponse(code = 200, message = "Atribuição concluída"),
+			@ApiResponse(code = 404, message = "Entregador nåo encontrado"),
+			@ApiResponse(code = 404, message = "Pedido não encontrado")
+	})	
 	@PatchMapping("/pedidos/{id}")
 	public ResponseEntity<?> atribuirEntregadorEAlterarStatus(@RequestBody Pedido pedido, @PathVariable int id) {
 		if (id <= 0) {
@@ -72,7 +92,5 @@ public class PedidoController {
 		} catch(Exception ex) {
 			return ResponseEntity.status(500).body(new Message(ex.getMessage()));
 		}
-	}
-	
-	
+	}	
 }

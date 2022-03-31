@@ -11,6 +11,9 @@ import br.com.javai.projeto.dto.EntregadorLoginDTO;
 import br.com.javai.projeto.security.Token;
 import br.com.javai.projeto.services.IEntregadorService;
 import br.com.javai.projeto.util.Message;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @CrossOrigin("*")
@@ -19,6 +22,12 @@ public class LoginController {
 	@Autowired
 	private IEntregadorService service;
 	
+	@ApiOperation(value = "Login do entregador", notes = "Login do entregador")
+	@ApiResponses( value = {
+			@ApiResponse(code = 400, message = "O campo email é obrigatório"),
+			@ApiResponse(code = 400, message = "O campo senha é obrigatório"),
+			@ApiResponse(code = 403, message = "Acesso negado")
+	})
 	@PostMapping("/login")
 	public ResponseEntity<?> realizarLogin(@RequestBody EntregadorLoginDTO dadosLogin) {
 		
