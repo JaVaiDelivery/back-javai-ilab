@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "geolocalizacao")
 public class Geolocalizacao {
@@ -27,7 +29,8 @@ public class Geolocalizacao {
 	private String coordenadas;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_pedido" )
+	@JoinColumn(name = "id_pedido")
+	@JsonIgnoreProperties("tracking")
 	private Pedido pedido;
 	
 	@ManyToOne
@@ -87,8 +90,4 @@ public class Geolocalizacao {
 	public void setEntregador(Entregador entregador) {
 		this.entregador = entregador;
 	}
-	
-	
-	
-	
 }

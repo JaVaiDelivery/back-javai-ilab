@@ -1,20 +1,19 @@
 package br.com.javai.projeto.controller;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.javai.projeto.dao.EntregadorDAO;
-import br.com.javai.projeto.dao.GeolocalizacaoDAO;
-import br.com.javai.projeto.dao.PedidoDAO;
-import br.com.javai.projeto.model.Entregador;
+import br.com.javai.projeto.dto.GeolocalizacaoDTO;
 import br.com.javai.projeto.model.Geolocalizacao;
-import br.com.javai.projeto.model.Pedido;
+import br.com.javai.projeto.services.IGeolocalizacaoService;
 import br.com.javai.projeto.util.Message;
 
 @RestController
@@ -22,41 +21,38 @@ import br.com.javai.projeto.util.Message;
 public class GeolocalizacaoController {
 	
 	@Autowired
-	private GeolocalizacaoDAO dao;
+	private IGeolocalizacaoService service;
 	
-	@Autowired
-	private PedidoDAO daoPedido;
-	
-	@Autowired
-	private EntregadorDAO daoEntregador;
+	@GetMapping("/geolocalizacao/{idPedido}")
+	public ResponseEntity<?> consultarGeolocalizacaoPorIdPedido(@PathVariable Integer idPedido) {
+		try {
+			List<GeolocalizacaoDTO> res = service.buscarGeolocalizacao(idPedido);
+			
+			if (res == null) {
+				return ResponseEntity.status(400).body(new Message("Pedido não encontrado. Informe um pedido válido"));
+			}
+			
+			return ResponseEntity.ok(res);
+		} catch (Exception ex) {
+			return ResponseEntity.status(500).body(new Message(ex.getMessage()));
+		}
+	}
 	
 	@PostMapping("/geolocalizacao")
 	public ResponseEntity<?> receberGeolocalizacaoEntregador(@RequestBody Geolocalizacao geo){
-		
-		try {	
-			
+		try {		
 			if (geo.getPedido() == null || geo.getPedido().getId() == null || geo.getEntregador() == null || geo.getEntregador().getId() == null) {
-				return ResponseEntity.status(400).body(new Message("Todos os campos são obrigatórios"));
+				return ResponseEntity.status(400).body(new Message("Todos os campos são obrigatórios. Ex.: \"coordenadas\": String, \"momento\": Timestamp, \"pedido\": { \"id\": integer }, \"entregador\": { \"id\": integer }"));
 			}
 			
-			Optional<Pedido> pedidoEncontrado = daoPedido.findById(geo.getPedido().getId());
-			Optional<Entregador> entregadorEncontrado = daoEntregador.findById(geo.getEntregador().getId());
+			Geolocalizacao res = service.inserirGeolocalizacao(geo);
 			
-			
-			if(pedidoEncontrado.isEmpty()) {
-				return (ResponseEntity<?>) ResponseEntity.badRequest().body(new Message("Pedido não encontrado"));
+			if (res == null) {
+				return ResponseEntity.status(400).body(new Message("Campo(s) inválido(s)."));
 			}
 			
-			if(entregadorEncontrado.isEmpty()) {
-				return (ResponseEntity<?>) ResponseEntity.badRequest().body(new Message("Entregador não encontrado"));
-			}
-			
-			Geolocalizacao nova = dao.save(geo);
-			
-			return ResponseEntity.ok(nova);
-			
+			return ResponseEntity.ok(res);			
 		} catch (Exception ex) {
-			
 			return ResponseEntity.status(400).body(new Message(ex.getMessage()));
 		}
 	}
