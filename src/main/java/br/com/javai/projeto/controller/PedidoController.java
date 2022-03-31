@@ -64,24 +64,25 @@ public class PedidoController {
 	@PatchMapping("/pedidos/{id}")
 	public ResponseEntity<?> atribuirEntregadorEAlterarStatus(@RequestBody Pedido pedido, @PathVariable int id) {
 		
-	
-		
 		try {
 			
 			if(pedido.getEntregador() != null) {
-				Optional<Entregador> encontrado = daoEntregador.findById(pedido.getEntregador().getId());
+				Optional<Entregador> entregadorEncontrado = daoEntregador.findById(pedido.getEntregador().getId());
+				Optional<Pedido> pedidoEncontrado = dao.findById(id);
 				
-				if (encontrado == null) {
+				if (entregadorEncontrado.isEmpty()) {
 					return ResponseEntity.status(404).body(new Message("Entregador não encontrado!"));
 				}
+				if(pedidoEncontrado.isEmpty()) {
+					return ResponseEntity.status(404).body(new Message("Pedido não encontrado!"));
+				}
+				
 				dao.atribuirEntregador(pedido.getEntregador().getId(), id);
 				
 			} else {
-			
+		
 				dao.removerEntregador(id);
 			}
-			
-			
 			
 			dao.mudarStatus(StatusDoPedido.getStatusDoPedidoValueFromInt(pedido.getStatus().getNumeroStatus()), id);
 			

@@ -33,7 +33,6 @@ public class GeolocalizacaoController {
 	@PostMapping("/geolocalizacao")
 	public ResponseEntity<?> receberGeolocalizacaoEntregador(@RequestBody Geolocalizacao geo){
 		
-		
 		try {	
 			
 			if (geo.getPedido() == null || geo.getPedido().getId() == null || geo.getEntregador() == null || geo.getEntregador().getId() == null) {

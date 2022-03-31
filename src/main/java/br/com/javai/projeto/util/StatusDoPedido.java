@@ -28,12 +28,18 @@ public enum StatusDoPedido {
 	}
 	
 	public static StatusDoPedido getStatusDoPedidoValueFromInt(int i) {
+
+		
 	     for (StatusDoPedido status : StatusDoPedido.values()) {
 	         if (status.getNumeroStatus() == i) {
 	             return status;
+	         }else {
+	        	 return null;
 	         }
 	     }
 	     // throw an IllegalArgumentException or return null
 	     throw new IllegalArgumentException("the given number doesn't match any Status.");
+	     
+	     
 	 }
 }
