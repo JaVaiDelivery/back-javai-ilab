@@ -22,7 +22,7 @@ Para ver o **Front-end**, clique aqui: [JaVai front-end](https://github.com/JaVa
 ## ⚙️ Funcionalidades
 Funcionalidades que o sistema oferece:
 - Autenticação do entregador
-- Consulta de pedidos em eberto
+- Consulta de pedidos em aberto
 - Atribuição de pedido pelo entregador
 - Alteração de status do pedido (EM_ABERTO/EM_ROTA/CONCLUIDO)
 - Consulta de geolocalização do entregador
@@ -41,11 +41,11 @@ Tecnologias que utilizamos para desenvolver esta API Rest:
 <!-- - [Swagger](https://swagger.io/) -->
 
 ## 💻 Desenvolvedores
-- [Alessandra Lamas Luisi](https://github.com/alluisi)
-- [Alessandro Costa](https://github.com/ab-costa)
-- [Jessica Xavier](https://github.com/jfsax)
-- [Rebeca Ferreira](https://github.com/rvsfrebeca1)
-- [Talita de Almeida](https://github.com/TalitaCarvalho)
+- [Alessandra Lamas Luisi](https://github.com/alluisi) **(Back-end/Front-end)**
+- [Alessandro Costa](https://github.com/ab-costa) **(Back-end)**
+- [Jessica Xavier](https://github.com/jfsax) **(Back-end/Front-end)**
+- [Rebeca Ferreira](https://github.com/rvsfrebeca1) **(Back-end)**
+- [Talita de Almeida](https://github.com/TalitaCarvalho) **(Front-end)**
 
 ## 💻 Iniciando
 
