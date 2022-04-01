@@ -11,6 +11,9 @@ import br.com.javai.projeto.dao.EntregadorDAO;
 import br.com.javai.projeto.model.Entregador;
 import br.com.javai.projeto.security.LoginCrypto;
 import br.com.javai.projeto.util.Message;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @CrossOrigin("*")
@@ -19,6 +22,13 @@ public class EntregadorController {
 	@Autowired
 	private EntregadorDAO dao;
 
+	@ApiOperation(value = "Cadastra um novo entregador", notes = "Cadastra um novo entregador")
+	@ApiResponses( value = {
+			@ApiResponse(code = 201, message = "Entregador cadastrado com sucesso"),
+			@ApiResponse(code = 400, message = "O campo nome é obrigatório"),
+			@ApiResponse(code = 400, message = "O campo email é obrigatório"),
+			@ApiResponse(code = 400, message = "O campo senha é obrigatório"),
+	})
 	@PostMapping("/entregador")
 	public ResponseEntity<?> cadastrarEntregador(@RequestBody Entregador entregador) {
 		try {
