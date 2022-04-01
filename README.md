@@ -1,5 +1,5 @@
 <h1 align="center">
-<img src="https://mototurbogoiania.com/wp-content/uploads/2018/03/courier-motoboy-central-moto-boy-freelancer-motoboy-moto-taxi-setor-empresa-de-entregas.png" title="Entregador" />
+<img src="https://www.danny.com.br/wp-content/uploads/na-ilustracao-do-conceito-de-caminho_114360-1191.jpg" title="Entregador" />
 </h1>
 
 <h3 align="center">
